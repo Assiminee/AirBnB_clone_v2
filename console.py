@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+from os import getenv
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -166,6 +167,8 @@ class HBNBCommand(cmd.Cmd):
                 valid_value = self.validate_value(attributes[1])
                 if valid_value is not None:
                     setattr(new_instance, attributes[0], valid_value)
+        if getenv("HBNB_TYPE_STORAGE") == "db":
+            storage.new(new_instance)
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -245,16 +248,21 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         print_list = []
 
+        if getenv("HBNB_TYPE_STORAGE") != "db":
+            objects = storage._FileStorage__objects
+        else:
+            objects = storage.all(args) if args else storage.all()
+
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in objects.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in objects.items():
                 print_list.append(str(v))
 
         print(print_list)

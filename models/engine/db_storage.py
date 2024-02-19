@@ -42,15 +42,15 @@ class DBStorage:
         """Uses the current database session to query the
         database for all instances of cls"""
         results = {}
+        cls = eval(cls) if type(cls) == str else cls
         tables = [cls] if cls else classes
         for table in tables:
-            cls_results = session.query(table).all()
+            cls_results = self.__session.query(table).all()
 
             for res in cls_results:
                 key = cls.__name__ + "." + res.id
                 results[key] = res
 
-        session.close()
         return results
 
     def new(self, obj):
