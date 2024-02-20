@@ -166,9 +166,7 @@ class HBNBCommand(cmd.Cmd):
                 valid_value = self.validate_value(attributes[1])
                 if valid_value is not None:
                     setattr(new_instance, attributes[0], valid_value)
-        if storage_type == "db":
-            storage.new(new_instance)
-        storage.save()
+        storage.new(new_instance)
         print(new_instance.id)
         storage.save()
 
