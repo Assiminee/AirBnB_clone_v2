@@ -3,11 +3,12 @@
 import uuid
 from datetime import datetime
 import models
+from os import getenv
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
-
+storage_type = getenv("HBNB_TYPE_STORAGE")
 
 class BaseModel:
     """A base class for all hbnb models"""
