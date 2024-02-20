@@ -19,7 +19,7 @@ place_amenity = Table(
             nullable=False
             ),
         Column(
-            "amenities_id",
+            "amenity_id",
             String(60),
             ForeignKey("amenities.id"),
             primary_key=True,
