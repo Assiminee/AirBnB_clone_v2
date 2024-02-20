@@ -3,8 +3,29 @@
 import models
 from models.base_model import BaseModel, Base, storage_type
 from models.review import Review
+from models.amenity import Amenity
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
+
+# Association table: many-to-many relationship
+place_amenity = Table(
+        "place_amenity",
+        Base.metadata,
+        Column(
+            "place_id",
+            String(60),
+            ForeignKey("places.id"),
+            primary_key=True,
+            nullable=False
+            ),
+        Column(
+            "amenities_id",
+            String(60),
+            ForeignKey("amenities.id"),
+            primary_key=True,
+            nullable=False
+            )
+        )
 
 
 class Place(BaseModel, Base):
@@ -25,31 +46,15 @@ class Place(BaseModel, Base):
         latitude = Column(Float)
         longitude = Column(Float)
 
-        # Relationship
+        # Relationships
         reviews = relationship("Review",
                                cascade="all, delete-orphan",
                                backref="places")
 
-        # Association table: many-to-many relationship
-        place_amenity = Table("place_amenity", Base.metadata,
-                              Column(
-                                  String(60),
-                                  ForeignKey("places.id"),
-                                  primary_key=True,
-                                  nullable=False
-                                  ),
-                              Column(
-                                  String(60),
-                                  ForeignKey("amenities.id"),
-                                  primary_key=True,
-                                  nullable=False
-                                  )
-                              )
-
-        # Relationship
         amenities = relationship("Amenity",
-                                 secondary=place_amenity,
-                                 back_populates="place_amenities"
+                                 secondary="place_amenity",
+                                 back_populates="place_amenities",
+                                 viewonly=False
                                 )
     else:
         city_id = ""
@@ -74,3 +79,23 @@ class Place(BaseModel, Base):
                 if review.place_id == self.place_id:
                     reviews_list.append(review)
             return reviews_list
+
+        @property
+        def amenities(self):
+            """Gets all the amenities linked to the current instance
+            of Place
+            """
+            amenities_list = []
+            all_amenities = models.storage.all(Amenities)
+            for amenity in all_amenities.values():
+                if amenity.id in self.amenity_ids:
+                    amenities_list.append(amenity)
+            return amenities_list
+
+        @amenities.setter
+        def amenities(self, amenity):
+            """setter: appends a new amenity id to
+            the amenity_ids list
+            """
+            if isinstance(amenity, Amenity):
+                self.amenity_ids.append(amenity)
