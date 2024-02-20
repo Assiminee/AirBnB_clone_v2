@@ -14,7 +14,7 @@ class User(BaseModel, Base):
         first_name = Column(String(128))
         last_name = Column(String(128))
         places = relationship("Place",
-                              back_populates="users",
+                              backref="users",
                               cascade="all, delete-orphan")
     else:
         email = ''
