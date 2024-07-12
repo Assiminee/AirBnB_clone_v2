@@ -18,7 +18,10 @@ def do_pack():
         print $4 $5}'
         """
     )
-    res = local(f"tar -cvzf versions/web_static_${datetime}.tgz ./*")
+    res = local(
+        f"tar -cvzf versions/web_static_${datetime}.tgz web_static",
+        capture=True
+    )
     if res:
         return res
     return None
