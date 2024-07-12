@@ -2,7 +2,13 @@
 
 from fabric.api import cd, local
 
-def do_pack() :
+
+def do_pack():
+    """
+        Packs the contents of the web_static folder
+        into an archive where the name is in the format
+        web_static_<year><month><day><hour><minute><second>.tgz
+    """
     with cd("/data/web_static"):
         local("[ -d versions ] || mkdir versions")
         datetime = local(
