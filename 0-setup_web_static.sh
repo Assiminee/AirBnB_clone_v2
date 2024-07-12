@@ -15,16 +15,16 @@ html=\
 \n</html>
 "
 
-[ -d /data/ ] || mkdir /data/
-[ -d /data/web_static/ ] || mkdir /data/web_static/
-[ -d /data/web_static/releases/ ] || mkdir /data/web_static/releases/
-[ -d /data/web_static/shared/ ] || mkdir /data/web_static/shared/
-[ -d /data/web_static/releases/test/ ] || mkdir /data/web_static/releases/test/
+[ -d /data/ ] || sudo mkdir /data/
+[ -d /data/web_static/ ] || sudo mkdir /data/web_static/
+[ -d /data/web_static/releases/ ] || sudo mkdir /data/web_static/releases/
+[ -d /data/web_static/shared/ ] || sudo mkdir /data/web_static/shared/
+[ -d /data/web_static/releases/test/ ] || sudo mkdir /data/web_static/releases/test/
 [ -f /data/web_static/releases/test/index.html ] || echo -e "$html" | sudo tee /data/web_static/releases/test/index.html
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -R ubuntu:ubuntu /data
 
-sudo sed '/rewrite/a\\tlocation \/hbnb_static {\n\t\talias \/data\/web_static\/current\/;\n\t}' /etc/nginx/sites-enabled
+sudo sed -i '/rewrite/a\\tlocation \/hbnb_static {\n\t\talias \/data\/web_static\/current\/;\n\t}' /etc/nginx/sites-enabled/default
 
 sudo nginx -s reload
