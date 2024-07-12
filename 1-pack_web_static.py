@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from fabric.api import local
+from datetime import datetime
 
 
 def do_pack():
@@ -9,17 +10,10 @@ def do_pack():
         into an archive where the name is in the format
         web_static_<year><month><day><hour><minute><second>.tgz
     """
-    local("[ -d versions ] || mkdir versions")
-    datetime = local(
-        """
-        timedatectl | awk 'NR==1 {
-        gsub(\"-\", \"\");
-        gsub(\":\", \"\");
-        print $4 $5}'
-        """, capture=True
-    )
+    local("mkdir -p versions")
+    dttime = datetime.now().strftime('%Y%m%d%H%M%S')
     res = local(
-        f"tar -cvzf versions/web_static_{datetime}.tgz web_static",
+        f"tar -cvzf versions/web_static_{dttime}.tgz web_static",
         capture=True
     )
     if res:
