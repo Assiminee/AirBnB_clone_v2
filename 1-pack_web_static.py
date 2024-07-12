@@ -16,10 +16,10 @@ def do_pack():
         gsub(\"-\", \"\");
         gsub(\":\", \"\");
         print $4 $5}'
-        """
+        """, capture=True
     )
     res = local(
-        f"tar -cvzf versions/web_static_${datetime}.tgz web_static",
+        f"tar -cvzf versions/web_static_{datetime}.tgz web_static",
         capture=True
     )
     if res:
