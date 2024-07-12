@@ -5,14 +5,13 @@ sudo apt-get update
 sudo apt-get install -y nginx
 
 html=\
-"
-<html>
-\n\t<head>
-\n\t</head>
-\n\t<body>
-\n\t\tHolberton School
-\n\t</body>
-\n</html>
+"<html>
+\t<head>
+\t</head>
+\t<body>
+\t\tHolberton School
+\t</body>
+</html>
 "
 
 [ -d /data/ ] || sudo mkdir /data/
@@ -27,4 +26,4 @@ sudo chown -R ubuntu:ubuntu /data
 
 sudo sed -i '/rewrite/a\\tlocation \/hbnb_static {\n\t\talias \/data\/web_static\/current\/;\n\t}' /etc/nginx/sites-enabled/default
 
-sudo nginx -s reload
+sudo service nginx restart
