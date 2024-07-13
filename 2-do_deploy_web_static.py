@@ -30,7 +30,7 @@ def do_deploy(archive_path):
         run(f"rm -rf /tmp/{archive_file}")
         run(f"rm -rf /data/web_static/current")
         run(f"rm -rf {destination_folder}/web_static")
-        run(f"ln -sf {destination_folder} /data/web_static/current")
+        run(f"ln -sf {destination_folder}/ /data/web_static/current")
         return True
     except Exception:
         return False
