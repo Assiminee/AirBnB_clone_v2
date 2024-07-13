@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 
 
-from fabric.api import cd, local, put, run, sudo
-from datetime import datetime
+from fabric.api import put, run, env
 from os.path import exists
-from fabric.io import env
 
 env.hosts = ['52.3.243.178', '54.197.105.101']
 env.user = 'ubuntu'
