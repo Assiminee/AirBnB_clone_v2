@@ -16,7 +16,7 @@ def do_clean(number=0):
     start = number if number > 1 else 1
 
     with lcd("versions"):
-        local(f"ls -t | tail -n +{number} | xargs rm -rf")
+        local(f"ls -t | tail -n +{start + 1} | xargs rm -rf")
 
     with cd("/data/web_static/releases/"):
-        run(f"ls -t | tail -n +{number} | xargs sudo rm -rf")
+        run(f"ls -t | tail -n +{start + 1} | xargs sudo rm -rf")
