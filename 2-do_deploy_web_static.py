@@ -23,7 +23,8 @@ def do_deploy(archive_path):
     try:
         put(archive_path, '/tmp')
         run(f"mkdir -p {destination_folder}")
-        run(f"tar -xvzf /tmp/{archive_file} -C {destination_folder}")
+        run(f"tar -xzf /tmp/{archive_file} -C {destination_folder}")
+        run(f"mv {destination_folder}/web_static/* {destination_folder}") 
         run(f"rm -rf /tmp/{archive_file} /data/web_static/current")
         run(f"ln -sf {destination_folder} /data/web_static/current")
         return True
