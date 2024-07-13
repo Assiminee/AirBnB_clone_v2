@@ -5,6 +5,9 @@ from fabric.api import local, put, run, env
 from datetime import datetime
 from os.path import exists
 
+env.hosts = ['52.3.243.178', '54.197.105.101']
+env.user = 'ubuntu'
+
 
 def do_pack():
     """
@@ -14,12 +17,13 @@ def do_pack():
     """
     local("mkdir -p versions")
     dttime = datetime.now().strftime('%Y%m%d%H%M%S')
+    archive: str = f"versions/web_static_{dttime}.tgz"
     res = local(
         f"tar -cvzf versions/web_static_{dttime}.tgz web_static",
         capture=True
     )
     if res:
-        return res
+        return archive
     return None
 
 
@@ -30,7 +34,6 @@ def do_deploy(archive_path):
     if not exists(archive_path):
         return False
 
-    env.hosts = ['52.3.243.178', '54.197.105.101']
     archive_file = archive_path.split('/')[1]
     filename = archive_file.split('.')[0]
     destination_folder = f"/data/web_static/releases/{filename}"
@@ -44,6 +47,7 @@ def do_deploy(archive_path):
         run(f"rm -rf /data/web_static/current")
         run(f"rm -rf {destination_folder}/web_static")
         run(f"ln -sf {destination_folder}/ /data/web_static/current")
+        run("sudo service nginx restart")
         return True
     except Exception:
         return False
