@@ -25,7 +25,7 @@ def do_deploy(archive_path):
         run(f"mkdir -p {destination_folder}")
         run(f"tar -xzf /tmp/{archive_file} -C {destination_folder}")
         run(f"mv {destination_folder}/web_static/* {destination_folder}") 
-        run(f"rm -rf /tmp/{archive_file} /data/web_static/current")
+        run(f"rm -rf /tmp/{archive_file} /data/web_static/current {destination_folder}/web_static")
         run(f"ln -sf {destination_folder} /data/web_static/current")
         return True
     except Exception:
