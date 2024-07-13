@@ -10,6 +10,7 @@ env.hosts = ['52.3.243.178', '54.197.105.101']
 env.user = 'ubuntu'
 env.key_filename = '~/.ssh/id_rsa'
 
+
 def do_deploy(archive_path):
     """
         distributes an archive to your web servers
@@ -25,9 +26,11 @@ def do_deploy(archive_path):
         put(archive_path, '/tmp')
         run(f"mkdir -p {destination_folder}")
         run(f"tar -xzf /tmp/{archive_file} -C {destination_folder}")
-        run(f"mv {destination_folder}/web_static/* {destination_folder}") 
-        run(f"rm -rf /tmp/{archive_file} /data/web_static/current {destination_folder}/web_static")
+        run(f"mv {destination_folder}/web_static/* {destination_folder}")
+        run(f"rm -rf /tmp/{archive_file}")
+        run(f"rm -rf /data/web_static/current")
+        run(f"rm -rf {destination_folder}/web_static")
         run(f"ln -sf {destination_folder} /data/web_static/current")
         return True
-    except:
+    except Exception:
         return False
