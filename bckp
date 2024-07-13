@@ -1,29 +1,47 @@
-#!/usr/bin/env bash
-# Sets up web servers for the deployment of web_static
+#!/usr/bin/python3
 
-sudo apt-get update
-sudo apt-get install -y nginx
 
-html=\
-"<html>
-\t<head>
-\t</head>
-\t<body>
-\t\tHolberton School
-\t</body>
-</html>
-"
+from fabric.api import cd, local, put, run, sudo
+from datetime import datetime
+from os.path import isfile
+from fabric.io import env
 
-[ -d /data/ ] || sudo mkdir /data/
-[ -d /data/web_static/ ] || sudo mkdir /data/web_static/
-[ -d /data/web_static/releases/ ] || sudo mkdir /data/web_static/releases/
-[ -d /data/web_static/shared/ ] || sudo mkdir /data/web_static/shared/
-[ -d /data/web_static/releases/test/ ] || sudo mkdir /data/web_static/releases/test/
-[ -f /data/web_static/releases/test/index.html ] || echo -e "$html" | sudo tee /data/web_static/releases/test/index.html
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-sudo chown -R ubuntu:ubuntu /data
+def do_pack():
+    """
+        Packs the contents of the web_static folder
+        into an archive where the name is in the format
+        web_static_<year><month><day><hour><minute><second>.tgz
+    """
+    local("mkdir -p versions")
+    dttime = datetime.now().strftime('%Y%m%d%H%M%S')
+    res = local(
+        f"tar -cvzf versions/web_static_{dttime}.tgz web_static",
+        capture=True
+    )
+    if res:
+        return res
+    return None
 
-sudo sed -i '/rewrite/a\\tlocation \/hbnb_static {\n\t\talias \/data\/web_static\/current\/;\n\t}' /etc/nginx/sites-enabled/default
+def do_deploy(archive_path):
+    """
+        distributes an archive to your web servers
+    """
+    if not isfile(archive_path):
+        return False
 
-sudo service nginx restart
+    env.hosts = ['52.3.243.178', '54.197.105.101']
+
+    archive_file = archive_path.split('/')[1]
+    filename = archive_file.split('.')[0]
+    destination_folder = f"/data/web_static/releases/{filename}"
+
+    try:
+        put(archive_path, '/tmp')
+        sudo(f"mkdir -p {destination_folder}")
+        sudo(f"tar -xvzf /tmp/{archive_file} -C {destination_folder}")
+        sudo(f"rm -rf /tmp/{archive_file} /data/web_static/current")
+        sudo(f"ln -sf {destination_folder} /data/web_static/current")
+        return True
+    except Exception:
+        return False
