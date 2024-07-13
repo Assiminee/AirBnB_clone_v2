@@ -7,7 +7,6 @@ from os.path import exists
 from fabric.io import env
 
 env.hosts = ['52.3.243.178', '54.197.105.101']
-env.user = 'ubuntu'
 
 def do_deploy(archive_path):
     """
@@ -28,5 +27,5 @@ def do_deploy(archive_path):
         run(f"rm -rf /tmp/{archive_file} /data/web_static/current {destination_folder}/web_static")
         run(f"ln -sf {destination_folder} /data/web_static/current")
         return True
-    except Exception:
+    except:
         return False
