@@ -19,7 +19,7 @@ def do_pack():
     dttime = datetime.now().strftime('%Y%m%d%H%M%S')
     archive: str = f"versions/web_static_{dttime}.tgz"
     res = local(
-        f"tar -cvzf versions/web_static_{dttime}.tgz web_static",
+        f"tar -cvzf {archive} web_static",
         capture=True
     )
     if res:
