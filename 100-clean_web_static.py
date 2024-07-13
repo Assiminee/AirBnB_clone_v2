@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-
 from fabric.api import cd, env, lcd, local, run, sudo
 
 env.hosts = ['52.3.243.178', '54.197.105.101']
 env.user = 'ubuntu'
+
 
 def do_clean(number=0):
     """
@@ -14,7 +14,7 @@ def do_clean(number=0):
     """
     try:
         number = int(number)
-    except:
+    except Exception:
         return False
 
     start = number if number > 1 else 1
