@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 
-from fabric.api import local, put, run, env
+from fabric.api import local, sudo, put, run, env
 from datetime import datetime
 from os.path import exists
 
@@ -47,7 +47,7 @@ def do_deploy(archive_path):
         run(f"rm -rf /data/web_static/current")
         run(f"rm -rf {destination_folder}/web_static")
         run(f"ln -sf {destination_folder}/ /data/web_static/current")
-        run("sudo service nginx restart")
+        sudo("service nginx restart")
         return True
     except Exception:
         return False

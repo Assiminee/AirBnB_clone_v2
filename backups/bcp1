@@ -1,12 +1,7 @@
 #!/usr/bin/python3
 
-
-from fabric.api import local, env
+from fabric.api import local
 from datetime import datetime
-from os.path import exists
-
-env.hosts = ['52.3.243.178', '54.197.105.101']
-env.user = 'ubuntu'
 
 
 def do_pack():
@@ -17,11 +12,10 @@ def do_pack():
     """
     local("mkdir -p versions")
     dttime = datetime.now().strftime('%Y%m%d%H%M%S')
-    archive: str = f"versions/web_static_{dttime}.tgz"
     res = local(
-        f"tar -cvzf {archive} web_static",
+        f"tar -cvzf versions/web_static_{dttime}.tgz web_static",
         capture=True
     )
     if res:
-        return archive
+        return res
     return None
