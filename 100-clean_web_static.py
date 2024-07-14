@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from fabric.api import cd, env, lcd, local, run, sudo
+from fabric.api import cd, env, lcd, local, run
 
 env.hosts = ['52.3.243.178', '54.197.105.101']
 env.user = 'ubuntu'

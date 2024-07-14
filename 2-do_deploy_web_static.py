@@ -15,7 +15,7 @@ def do_deploy(archive_path):
     if not exists(archive_path):
         return False
 
-    archive_file = archive_path.split('/')[1]
+    archive_file = archive_path.split('/')[-1]
     filename = archive_file.split('.')[0]
     destination_folder = f"/data/web_static/releases/{filename}"
 
