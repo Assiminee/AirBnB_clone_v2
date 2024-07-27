@@ -42,7 +42,7 @@ class DBStorage:
         """Uses the current database session to query the
         database for all instances of cls"""
         results = {}
-        cls = eval(cls) if type(cls) == str else cls
+        cls = eval(cls) if isinstance(cls, str) else cls
         tables = [cls] if cls else classes
         for table in tables:
             cls_results = self.__session.query(table).all()
@@ -72,7 +72,10 @@ class DBStorage:
     def reload(self):
         """Reloads the database"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(
+            bind=self.__engine,
+            expire_on_commit=False
+        )
         Session = scoped_session(session_factory)
         self.__session = Session()
 
