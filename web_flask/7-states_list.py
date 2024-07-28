@@ -15,8 +15,7 @@ def state_list():
     route to a template displaying a list of states
     """
     states = storage.all('State')
-    sorted_states = sorted(states.values(), key=lambda state: state.name)
-    return render_template("7-states_list.html", states=sorted_states)
+    return render_template("7-states_list.html", states=states)
 
 
 @app.teardown_appcontext
