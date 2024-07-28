@@ -31,6 +31,7 @@ def state_by_id(id):
             return render_template(template_path, states=state)
     return render_template(template_path, states=None)
 
+
 @app.teardown_appcontext
 def teardown_sql_session(exception):
     """
