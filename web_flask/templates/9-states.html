@@ -4,9 +4,7 @@
         <TITLE>HBNB</TITLE>
     </HEAD>
     <BODY>
-		{% if states is none %}
-		<H1>Not found!</H1>
-		{% else %}
+		{% if states is defined %}
 			{% if states is iterable %}
         		<H1>States</H1>
 				<UL>
@@ -23,6 +21,8 @@
 				{% endfor %}
 				</UL>
 			{% endif %}
+		{% else %}
+			<H1>Not found!</H1>
 		{% endif %}
     </BODY>
 </HTML>

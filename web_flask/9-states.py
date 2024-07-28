@@ -29,7 +29,7 @@ def state_by_id(id):
     for state in states.values():
         if state.id == id:
             return render_template(template_path, states=state)
-    return render_template(template_path, states=None)
+    return render_template(template_path)
 
 
 @app.teardown_appcontext
