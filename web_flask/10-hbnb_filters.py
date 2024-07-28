@@ -6,6 +6,7 @@ starts a Flask web application
 
 from flask import Flask, render_template
 from models import storage
+from models.amenity import Amenity
 app = Flask(__name__)
 template_path = "10-hbnb_filters.html"
 
@@ -16,8 +17,8 @@ def hbnb_filters():
     route to a template displaying a filters
     """
     states = storage.all('State').values()
-    amenities = storage.all('Amenity').values
-    return render_template(template_path, states=states, amenities=amenities)
+    amenities = storage.all(Amenity).values()
+    return render_template(template_path, states=states, ams=amenities)
 
 
 @app.teardown_appcontext
