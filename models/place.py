@@ -56,6 +56,7 @@ class Place(BaseModel, Base):
                                  back_populates="place_amenities",
                                  viewonly=False
                                 )
+        user = relationship('User')
     else:
         city_id = ""
         user_id = ""

@@ -9,7 +9,7 @@
 article {
 	display: flex;
 	width: 390px;
-	flex: none;
+	/*flex: none;*/
 	flex-wrap: wrap;
 	flex-direction: row;
 	align-content: flex-start;
@@ -27,19 +27,18 @@ article {
 .headline {
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
 	position: relative;
+	text-align: left;
+	align-items: center;
 
-	height: 80px;	
+	height: 120px;	
 	width: 100%;
 }
 
 .price_by_night {
 	display: flex;
 	justify-content: center;
-	align-self: flex-end;
-
-	position: absolute;
-	right: 0;
 
 	line-height: 60px;
 	color: #FF5A5F;

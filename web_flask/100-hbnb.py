@@ -7,7 +7,7 @@ starts a Flask web application
 from flask import Flask, render_template
 from models import storage
 app = Flask(__name__)
-template_path = "10-hbnb_filters.html"
+template_path = "100-hbnb.html"
 
 
 @app.route('/hbnb')

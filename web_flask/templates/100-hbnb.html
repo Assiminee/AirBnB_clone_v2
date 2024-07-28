@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="static/styles/3-header.css"/>
 		<link rel="stylesheet" href="static/styles/3-footer.css"/>
 		<link rel="stylesheet" href="static/styles/6-filters.css"/>
+		<link rel="stylesheet" href="static/styles/8-places.css"/>
 	</head>
     <body>
 		<header>
@@ -19,25 +20,31 @@
 				<button>Search</button>
 				<div class="locations">
 					<h3>States</h3>
-					<ul class="popover">
-						{% for state in states | sort(attribute='name') %}
-						<li><h2>{{ state.name }}</h2>
-							<ul>
-								{% for city in state.cities | sort(attribute='name') %}
-								<li><h4>{{ city.name }}</h4></li>
-								{% endfor %}
-							</ul>
-						</li>
-						{% endfor %}
-					</ul>
+					<h4>&nbsp;</h4>
+					<div class=popover>
+						<ul>
+							{% for state in states | sort(attribute='name') %}
+							<li><h2>{{ state.name }}</h2>
+								<ul>
+									{% for city in state.cities | sort(attribute='name') %}
+									<li><h4>{{ city.name }}</h4></li>
+									{% endfor %}
+								</ul>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
 				</div>
 				<div class="filter_amenities">
 					<h3>Amenities</h3>
-					<ul class="popover">
-						{% for am in ams | sort(attribute='name') %}
-						<li><h2>{{ am.name }}</h2>
-						{% endfor %}
-					</ul>
+					<h4>&nbsp;</h4>
+					<div class="popover">
+						<ul>
+							{% for am in ams | sort(attribute='name') %}
+							<li><h2>{{ am.name }}</h2>
+							{% endfor %}
+						</ul>
+					</div>
 				</div>
 			</section>
 			<section class="places">
@@ -62,10 +69,12 @@
 							<p>{{ place.number_bathrooms }} Bathroom</p>
 						</div>
 					</div>
-					<div class="user"><b>Owner: </b>{{ place.user.name }}</div>
+					<div class="user"><b>Owner:</b> {{ place.user.first_name }} {{ place.user.last_name }}</div>
+					{% autoescape false %}
 					<div class="description">
 						{{ place.description }}
                     </div>
+					{% endautoescape %}
 				</article>
 				{% endfor %}
 			</section>
